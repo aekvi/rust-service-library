@@ -5,7 +5,7 @@ use std::io::{self, Read, Write};
 use std::net::{self, Shutdown};
 
 pub struct Headers {
-    content_type: MimeType,
+    pub content_type: MimeType,
 }
 
 /// Post an event to the central message queue (Rapids) with a payload.
