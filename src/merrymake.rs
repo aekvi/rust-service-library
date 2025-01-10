@@ -87,6 +87,19 @@ pub fn reply_str_to_origin(body: &str) -> Result<(), String> {
     )
 }
 
+/// Post a reply back to the originator of the trace, with a json payload.
+/// # Arguments
+/// * `body`-- the payload
+/// * `contentType` -- the content type of the payload
+pub fn reply_json_to_origin<T: Serialize>(body: &T) -> Result<(), String> {
+    reply_to_origin(
+        &serde_json::to_vec(body).map_err(|e| e.to_string())?,
+        &Headers {
+            content_type: mime_types::JSON,
+        },
+    )
+}
+
 pub fn get_args() -> Result<(String, Envelope, Vec<u8>), String> {
     let bytes = get_bytes()?;
     let (action_bytes, i) = read_next_byte_chunk(&bytes)?;
